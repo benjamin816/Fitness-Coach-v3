@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-// Corrected import path for useStorage
 import { useStorage } from '../components/StorageProvider';
 import { DailyLog, UserProfile, GoalSettings, AdaptiveModel, WorkoutSession } from '../types';
 import { 
@@ -12,7 +11,7 @@ import {
 import { getPlanAchievedDelta, getPlanStatusLabel } from '../domain/planAdherence';
 import { ACTIVITY_TARGETS } from '../constants';
 import { Flame, Footprints, Timer, Weight, Trophy, Sparkles, RefreshCcw, Target, Zap, Dumbbell } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link'; // Changed to next/link
 import CoachBar from '../components/CoachBar';
 
 const TodayPage: React.FC = () => {
@@ -31,7 +30,6 @@ const TodayPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Get the start of the current week (Sunday)
       const now = new Date();
       const day = now.getDay();
       const diff = now.getDate() - day;
@@ -61,7 +59,6 @@ const TodayPage: React.FC = () => {
         updatedAt: Date.now()
       });
 
-      // Filter sessions for the current week
       const currentWeekSessions = allSessions.filter(s => s.dateISO >= startOfWeekISO);
       setWeeklySessions(currentWeekSessions);
 
@@ -92,8 +89,6 @@ const TodayPage: React.FC = () => {
   const stepTarget = ACTIVITY_TARGETS[goals.activityStyle].steps;
   const azmTarget = ACTIVITY_TARGETS[goals.activityStyle].azm;
 
-  // Determine workout target based on activity style
-  // Low: 1, Standard: 2, High: 3
   const workoutTargetMap = {
     'low-cardio': 1,
     'standard': 2,
@@ -170,7 +165,7 @@ const TodayPage: React.FC = () => {
               <p className="text-yellow-50">You've hit your target weight. Ready for the next phase?</p>
             </div>
             <Link 
-              to="/settings" 
+              href="/settings" 
               className="bg-white text-orange-600 px-6 py-2 rounded-full font-bold flex items-center gap-2 hover:bg-yellow-50 transition shadow-md"
             >
               <RefreshCcw size={18} /> Update Goal
@@ -179,9 +174,7 @@ const TodayPage: React.FC = () => {
         </div>
       )}
 
-      {/* Primary Metrics Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {/* Current Goal Card */}
         <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-center">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Current Goal</p>
           <div className="flex flex-col">
@@ -192,7 +185,6 @@ const TodayPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Calories Card */}
         <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-center">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Calories Intake</p>
           <div className="flex items-baseline gap-1">
@@ -201,19 +193,16 @@ const TodayPage: React.FC = () => {
           </div>
         </div>
         
-        {/* Deficit Card */}
         <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-center">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Net {getPlanStatusLabel(goals.mode, achievedDelta)}</p>
           <div className="flex items-baseline gap-1">
             <span className={`text-xl font-bold ${achievedDelta === undefined ? 'text-gray-400' : (achievedDelta < 0 ? 'text-emerald-600' : 'text-red-600')}`}>
               {achievedDelta === undefined ? 'N/A' : Math.round(Math.abs(achievedDelta))}
             </span>
-            {/* Fixed: Use plannedDailyDelta instead of undefined plannedDelta */}
             <span className="text-xs text-gray-400">/ {Math.abs(plannedDailyDelta)}</span>
           </div>
         </div>
 
-        {/* Weekly Workouts Card */}
         <div className="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-center">
           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Workouts This Week</p>
           <div className="flex items-baseline gap-1">
@@ -227,7 +216,6 @@ const TodayPage: React.FC = () => {
 
       <CoachBar state={coachState} />
 
-      {/* Manual Entry Inputs */}
       <div className="bg-white rounded-xl border shadow-sm divide-y">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">

@@ -1,6 +1,6 @@
 {
-  "name": "Vite Vercel Fitness Coach MVP",
-  "description": "A comprehensive, manual-entry fitness coaching app for fat loss, maintenance, and lean gain. Features daily check-ins, adaptive TDEE logic, and a structured weightlifting log with built-in programs.",
+  "name": "Next.js Fitness Coach MVP",
+  "description": "Advanced adaptive fitness coaching app built with Next.js App Router and Dexie local storage.",
   "requestFramePermissions": [
     "geolocation"
   ]
